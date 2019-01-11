@@ -112,7 +112,7 @@ def evaluate_model(estimator, speech_labels, entries, input_fn_eval):
 
     greedy_decoder = decoder.DeepSpeechDecoder(speech_labels)
 
-    eval_results = [{'pred': predictions[i], 'text': greedy_decoder.decode(probs[i])} for i in range(num_of_examples)]
+    eval_results = [{'pred': the_predictions[i], 'text': greedy_decoder.decode(probs[i])} for i in range(num_of_examples)]
 
     return eval_results
 
