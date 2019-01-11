@@ -103,8 +103,10 @@ def evaluate_model(estimator, speech_labels, entries, input_fn_eval):
     # Get predictions
     predictions = estimator.predict(input_fn=input_fn_eval)
 
+    the_predictions = list(predictions)
+
     # Get probabilities of each predicted class
-    probs = [pred["probabilities"] for pred in predictions]
+    probs = [pred["probabilities"] for pred in the_predictions]
 
     num_of_examples = len(probs)
 
