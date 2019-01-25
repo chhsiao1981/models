@@ -255,8 +255,8 @@ def run_deep_speech(_):
     # tf.logging.info('eval_results: {}'.format(eval_results))
 
     for result in eval_results:
-        result['pred'] = result['pred'].tolist()
-        result['probs'] = result['probs'].tolist()
+        result['pred'] = result['pred']
+        result['probs'] = result['probs']
 
     out_filename = re.sub(u'.csv$', '.out.json', flags_obj.eval_data_dir)
     with open(out_filename, 'w') as f:
