@@ -258,8 +258,7 @@ def run_deep_speech(_):
         estimator, eval_speech_dataset.speech_labels,
         eval_speech_dataset.entries, input_fn_eval)
 
-    tf.logging.info('eval_results: {}'.format(eval_results[0]))
-
+    the_eval_results = []
     for result in eval_results:
         result['pred'] = {k: v.tolist() for k, v in result['pred'].items()}
 
@@ -270,7 +269,9 @@ def run_deep_speech(_):
 
         del result['pred']
 
-    df_out = pd.DataFrame(eval_results)
+        the_eval_results.append(result)
+
+    df_out = pd.DataFrame(the_eval_results)
 
     columns = ['wav_filename', 'text']
     df_out = df_out[columns]
