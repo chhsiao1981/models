@@ -254,11 +254,11 @@ def run_deep_speech(_):
         estimator, eval_speech_dataset.speech_labels,
         eval_speech_dataset.entries, input_fn_eval)
 
-    # tf.logging.info('eval_results: {}'.format(eval_results))
+    tf.logging.info('eval_results: {}'.format(eval_results[0]))
 
     for result in eval_results:
         result['pred'] = result['pred']
-        result['probs'] = result['probs']
+        result['probs'] = result['probs'].tolist()
 
     out_filename = re.sub(u'.csv$', '.out.json', flags_obj.eval_data_dir)
     with open(out_filename, 'w') as f:
