@@ -114,7 +114,7 @@ def evaluate_model(estimator, speech_labels, entries, input_fn_eval):
 
     greedy_decoder = decoder.DeepSpeechDecoder(speech_labels)
 
-    eval_results = [{'wav_filename': entries[i][0], 'pred': the_predictions[i], 'probs': probs, 'text': greedy_decoder.decode(probs[i])} for i in range(num_of_examples)]
+    eval_results = [{'wav_filename': entries[i][0], 'pred': the_predictions[i], 'probs': probs[i], 'text': greedy_decoder.decode(probs[i])} for i in range(num_of_examples)]
 
     return eval_results
 
@@ -257,7 +257,7 @@ def run_deep_speech(_):
     tf.logging.info('eval_results: {}'.format(eval_results[0]))
 
     for result in eval_results:
-        result['pred'] = result['pred']
+        result['pred'] = {k: v.tolist() for k, v in result['pred'].items}
         result['probs'] = result['probs'].tolist()
 
     out_filename = re.sub(u'.csv$', '.out.json', flags_obj.eval_data_dir)
