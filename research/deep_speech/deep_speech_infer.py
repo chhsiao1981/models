@@ -271,7 +271,7 @@ def run_deep_speech(_):
 
         del result['pred']
 
-        tf.logging.info("finished: ({}/{}) {}".format(i, len_entries, result['wav_filename']))
+        tf.logging.info("finished: ({}/{}) {}: {}".format(i, len_entries, result['wav_filename'], result['text']))
 
         the_eval_results.append(result)
 
