@@ -106,18 +106,21 @@ def evaluate_model(estimator, speech_labels, entries, input_fn_eval):
     # Get predictions
     predictions = estimator.predict(input_fn=input_fn_eval)
 
-    the_predictions = list(predictions)
+    # the_predictions = list(predictions)
 
     # Get probabilities of each predicted class
-    probs = [pred["probabilities"] for pred in the_predictions]
-
-    num_of_examples = len(probs)
+    # probs = [pred["probabilities"] for pred in the_predictions]
 
     greedy_decoder = decoder.DeepSpeechDecoder(speech_labels)
 
-    eval_results = [{'wav_filename': entries[i][0], 'pred': the_predictions[i], 'probs': probs[i], 'text': greedy_decoder.decode(probs[i])} for i in range(num_of_examples)]
+    i = 0
+    for pred in predictions:
+        prob = pred['probabilities']
+        text = greedy_decoder.decode(prob)
+        result = {'wav_filename': entries[i][0], 'pred': pred, 'text': text}
+        i = i + 1
 
-    return eval_results
+        yield result
 
 
 def model_fn(features, labels, mode, params):
@@ -259,7 +262,6 @@ def run_deep_speech(_):
 
     for result in eval_results:
         result['pred'] = {k: v.tolist() for k, v in result['pred'].items()}
-        result['probs'] = result['probs'].tolist()
 
         out_filename = re.sub(u'.wav$', '.out.json', result['wav_filename'])
 
@@ -267,7 +269,6 @@ def run_deep_speech(_):
             json.dump(result, f)
 
         del result['pred']
-        del result['probs']
 
     df_out = pd.DataFrame(eval_results)
 
