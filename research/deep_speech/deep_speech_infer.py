@@ -23,6 +23,7 @@ from absl import app as absl_app
 from absl import flags
 import tensorflow as tf
 import re
+import json
 # pylint: enable=g-bad-import-order
 
 import data.dataset as dataset
