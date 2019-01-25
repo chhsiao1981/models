@@ -258,9 +258,9 @@ def run_deep_speech(_):
         result['pred'] = result['pred'].tolist()
         result['probs'] = result['probs'].tolist()
 
+    out_filename = re.sub(u'.csv$', '.out.json', flags_obj.eval_data_dir)
     with open(out_filename, 'w') as f:
         json.dump(eval_results, f)
-
 
 
 def define_deep_speech_flags():
