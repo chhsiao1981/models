@@ -271,8 +271,11 @@ def run_deep_speech(_):
 
     df_out = pd.DataFrame(eval_results)
 
+    columns = ['wav_filename', 'text']
+    df_out = df_out[columns]
+
     out_filename = re.sub(u'.csv$', '.out.csv', flags_obj.eval_data_dir)
-    df_out.to_csv(out_filename)
+    df_out.to_csv(out_filename, index=False)
 
 
 def define_deep_speech_flags():
