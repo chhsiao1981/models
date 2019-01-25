@@ -24,6 +24,7 @@ from absl import flags
 import tensorflow as tf
 import re
 import json
+import pandas as pd
 # pylint: enable=g-bad-import-order
 
 import data.dataset as dataset
@@ -260,9 +261,18 @@ def run_deep_speech(_):
         result['pred'] = {k: v.tolist() for k, v in result['pred'].items()}
         result['probs'] = result['probs'].tolist()
 
-    out_filename = re.sub(u'.csv$', '.out.json', flags_obj.eval_data_dir)
-    with open(out_filename, 'w') as f:
-        json.dump(eval_results, f)
+        out_filename = re.sub(u'.wav$', '.out.json', result['wav_filename'])
+
+        with open(out_filename, 'w') as f:
+            json.dump(result, f)
+
+        del result['pred']
+        del result['probs']
+
+    df_out = pd.DataFrame(eval_results)
+
+    out_filename = re.sub(u'.csv$', '.out.csv', flags_obj.eval_data_dir)
+    df_out.to_csv(out_filename)
 
 
 def define_deep_speech_flags():
